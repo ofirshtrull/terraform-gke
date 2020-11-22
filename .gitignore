@@ -1,0 +1,37 @@
+
+
+# Compiled files
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+*.tfstate.backup
+# Directories
+.terraform/
+.vagrant/
+
+# SSH Keys
+*.pem
+
+# Backup files
+*.bak
+
+# Ignored Terraform files
+*gitignore*.tf
+
+terraform.tfstate
+terraform.*
+tf.*
+git*.sh
+todo*
+clean*.sh
+.terraform*
+.tfstate
+terraform*.tfstate
+.idea/
+generated
+
+ssh
+*.zip
+# TEMP
+envs/demo.tfvars
+terraform-gke-keyfile.json

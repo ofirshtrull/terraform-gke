@@ -1,0 +1,224 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  repositories: |
+    - name: prometheus-community
+      type: helm
+      url: https://prometheus-community.github.io/helm-charts
+    - name: ingress-nginx
+      type: helm
+      url: https://kubernetes.github.io/ingress-nginx
+    - name: jetstack
+      type: helm
+      url: https://charts.jetstack.io
+
+
+
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-community
+  namespace: argocd
+spec:
+  destination:
+    namespace: prometheus
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: kube-prometheus-stack
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 11.0.4
+    helm:
+      values: |
+        grafana:
+          adminPassword: Qq121314
+          grafana.ini:
+            server:
+              root_url: https://grafana.34.123.11.248.xip.io
+          sidecar:
+            dashboards:
+              enabled: true
+              searchNamespace: ALL
+          dashboards:
+            default:
+              nginx:
+                url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+              nginx-request-handling-performance:
+                url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
+              argocd:
+                url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
+          dashboardProviders:
+            dashboardproviders.yaml:
+              apiVersion: 1
+              providers:
+              - name: 'default'
+                orgId: 1
+                folder: ''
+                type: file
+                disableDeletion: false
+                editable: true
+                options:
+                  path: /var/lib/grafana/dashboards/default
+          ingress:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+              cert-manager.io/cluster-issuer: letsencrypt-staging
+            tls:
+            - secretName: grafana
+              hosts:
+                - grafana.34.123.11.248.xip.io
+
+            hosts:
+              - grafana.34.123.11.248.xip.io
+          additionalDataSources:
+            - name: Prometheus-loki
+              type: prometheus
+              url: http://loki-stack.loki.svc.cluster.local:3100/loki
+              isDefault: false
+            - name: Loki
+              type: loki
+              url: http://loki-stack.loki.svc.cluster.local:3100
+              isDefault: false
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki-stack
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: loki-stack
+    repoURL: https://grafana.github.io/loki/charts
+    targetRevision: 2.0.0
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: loki
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+spec:
+  destination:
+    namespace: nginx
+    server: 'https://kubernetes.default.svc'
+  source:
+    repoURL: 'https://kubernetes.github.io/ingress-nginx'
+    targetRevision: 3.9.0
+    chart: ingress-nginx
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+spec:
+  destination:
+    namespace: cert-manager
+    server: 'https://kubernetes.default.svc'
+  source:
+    repoURL: 'https://charts.jetstack.io'
+    targetRevision: v1.0.4
+    helm:
+      values: |
+        installCRDs: true
+    chart: cert-manager
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
+
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: argocd-server-ingress
+  namespace: argocd
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  rules:
+  - host: argocd.34.123.11.248.xip.io
+    http:
+      paths:
+      - backend:
+          serviceName: argocd-server
+          servicePort: https
+        path: /
+  tls:
+  - hosts:
+    - argocd.34.123.11.248.xip.io
+    secretName: argocd-secret
+
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    email: ofir.shtrull@checkmarx.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: issuer-account-key
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+---
+#grafana
+#u: https://grafana.34.123.11.248.xip.io/
+#u: admin
+#p: Qq121314
+#for loki demo {job="argocd/tikal"} !="kube-probe"
+
+#argo
+#u: https://argocd.34.123.11.248.xip.io/
+#u: admin
+#p: Qq121314
+
+#Hello world grafana presentation
+#u: https://34.123.11.248.xip.io/
