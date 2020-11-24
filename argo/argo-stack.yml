@@ -19,7 +19,31 @@ data:
       type: helm
       url: https://charts.jetstack.io
 
+---
 
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  destination:
+    namespace: cert-manager
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://charts.jetstack.io
+    targetRevision: v1.0.4
+    helm:
+      values: |
+        installCRDs: true
+    chart: cert-manager
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
 
 
 ---
@@ -43,7 +67,7 @@ spec:
           adminPassword: Qq121314
           grafana.ini:
             server:
-              root_url: https://grafana.34.123.11.248.xip.io
+              root_url: https://grafana.35.226.190.132.xip.io
           sidecar:
             dashboards:
               enabled: true
@@ -76,10 +100,10 @@ spec:
             tls:
             - secretName: grafana
               hosts:
-                - grafana.34.123.11.248.xip.io
+                - grafana.35.226.190.132.xip.io
 
             hosts:
-              - grafana.34.123.11.248.xip.io
+              - grafana.35.226.190.132.xip.io
           additionalDataSources:
             - name: Prometheus-loki
               type: prometheus
@@ -108,6 +132,30 @@ spec:
     chart: loki-stack
     repoURL: https://grafana.github.io/loki/charts
     targetRevision: 2.0.0
+#    helm:
+#      values: |
+#        loki:
+#          serviceAccount:
+#            annotations:
+#              iam.gke.io/loki-sa@ornate-veld-292519.iam.gserviceaccount.com
+#          config:
+#            storage_config:
+#              boltdb_shipper:
+#                cache_ttl: 24h
+#                shared_store: gcs
+#              gcs:
+#                bucket_name: gs://loki-ofir
+#            schema_config:
+#              configs:
+#                - from: 2020-07-01
+#                  store: boltdb-shipper
+#                  object_store: gcs
+#                  schema: v11
+#                  index:
+#                    prefix: index_
+#                    period: 24h
+
+
   destination:
     server: https://kubernetes.default.svc
     namespace: loki
@@ -122,6 +170,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: ingress-nginx
+  namespace: argocd
 spec:
   destination:
     namespace: nginx
@@ -139,33 +188,6 @@ spec:
       - CreateNamespace=true
 
 ---
-
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: cert-manager
-spec:
-  destination:
-    namespace: cert-manager
-    server: 'https://kubernetes.default.svc'
-  source:
-    repoURL: 'https://charts.jetstack.io'
-    targetRevision: v1.0.4
-    helm:
-      values: |
-        installCRDs: true
-    chart: cert-manager
-  project: default
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-
-
-
----
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -179,7 +201,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   rules:
-  - host: argocd.34.123.11.248.xip.io
+  - host: argocd.35.226.190.132.xip.io
     http:
       paths:
       - backend:
@@ -188,7 +210,7 @@ spec:
         path: /
   tls:
   - hosts:
-    - argocd.34.123.11.248.xip.io
+    - argocd.35.226.190.132.xip.io
     secretName: argocd-secret
 
 ---
@@ -207,18 +229,3 @@ spec:
     - http01:
         ingress:
           class: nginx
-
----
-#grafana
-#u: https://grafana.34.123.11.248.xip.io/
-#u: admin
-#p: Qq121314
-#for loki demo {job="argocd/tikal"} !="kube-probe"
-
-#argo
-#u: https://argocd.34.123.11.248.xip.io/
-#u: admin
-#p: Qq121314
-
-#Hello world grafana presentation
-#u: https://34.123.11.248.xip.io/
