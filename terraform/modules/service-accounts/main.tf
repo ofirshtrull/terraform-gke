@@ -1,5 +1,4 @@
 
-
 # create service accounts
 resource "google_service_account" "service_accounts" {
   for_each     = local.names
