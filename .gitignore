@@ -35,3 +35,4 @@ ssh
 # TEMP
 envs/demo.tfvars
 terraform-gke-keyfile.json
+!.terraform-version
