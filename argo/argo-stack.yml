@@ -18,6 +18,9 @@ data:
     - name: jetstack
       type: helm
       url: https://charts.jetstack.io
+    - name: bitnami
+      type: helm
+      url: https://charts.bitnami.com/bitnami
 
 ---
 
@@ -67,7 +70,7 @@ spec:
           adminPassword: Qq121314
           grafana.ini:
             server:
-              root_url: https://grafana.35.226.190.132.xip.io
+              root_url: https://grafana.34.69.137.111.xip.io
           sidecar:
             dashboards:
               enabled: true
@@ -100,10 +103,10 @@ spec:
             tls:
             - secretName: grafana
               hosts:
-                - grafana.35.226.190.132.xip.io
+                - grafana.34.69.137.111.xip.io
 
             hosts:
-              - grafana.35.226.190.132.xip.io
+              - grafana.34.69.137.111.xip.io
           additionalDataSources:
             - name: Prometheus-loki
               type: prometheus
@@ -201,7 +204,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   rules:
-  - host: argocd.35.226.190.132.xip.io
+  - host: argocd.34.69.137.111.xip.io
     http:
       paths:
       - backend:
@@ -210,7 +213,7 @@ spec:
         path: /
   tls:
   - hosts:
-    - argocd.35.226.190.132.xip.io
+    - argocd.34.69.137.111.xip.io
     secretName: argocd-secret
 
 ---
@@ -229,3 +232,49 @@ spec:
     - http01:
         ingress:
           class: nginx
+
+
+---
+apiVersion: networking.gke.io/v1beta2
+kind: ManagedCertificate
+metadata:
+  name: hello-k8s-gce-ssl
+spec:
+  domains:
+    - "shtrull.com"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+spec:
+  project: default
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  source:
+    chart: external-dns
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 4.0.0
+    helm:
+      values: |
+        metrics:
+          enabled: true
+        replicas: 2
+        provider: google
+        google:
+          ## Google Project to use
+          ##
+          project: "ornate-veld-292519"
+          ## Google Application Credentials
+          ##
+          # serviceAccountSecret: ""
+          # serviceAccountSecretKey: "credentials.json"
+          # serviceAccountKey: ""
+        publishInternalServices: true
+        rbac:
+          serviceAccountName: external-dns
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

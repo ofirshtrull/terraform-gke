@@ -3,6 +3,7 @@
 #### Service Accounts
 ##### Dns-controller:
     * roles/dns.admin
+    * roles/compute.loadBalancerAdmin
 ##### Secret-manager
     * roles/secretmanager.secretAccessor
 ##### Vpc

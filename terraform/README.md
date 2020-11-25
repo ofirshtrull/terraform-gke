@@ -21,6 +21,8 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | allowed\_public\_restricted\_subnetworks | The public networks that is allowed access to the public\_restricted subnetwork of the network | `list(string)` | `[]` | no |
+| auto\_repair | Whether the nodes will be automatically repaired. | `bool` | `true` | no |
+| auto\_upgrade | Whether the nodes will be automatically upgraded. | `bool` | `true` | no |
 | cluster\_name | The name of the Kubernetes cluster. | `string` | n/a | yes |
 | cluster\_service\_account\_description | A description of the custom service account used for the GKE cluster. | `string` | `"Example GKE Cluster Service Account managed by Terraform"` | no |
 | create\_network | n/a | `bool` | `true` | no |
@@ -34,6 +36,7 @@
 | machine\_type | Type of the node compute engines. | `string` | n/a | yes |
 | master\_ipv4\_cidr\_block | The IP range in CIDR notation (size must be /28) to use for the hosted master network. This range will be used for assigning internal IP addresses to the master or set of masters, as well as the ILB VIP. This range must not overlap with any other ranges in use within the cluster's network. | `string` | `"10.5.0.0/28"` | no |
 | max\_node\_count | Maximum number of nodes in the NodePool. Must be >= min\_node\_count. | `number` | n/a | yes |
+| max\_pods\_per\_node | The maximum number of pods per node in this node pool. | `number` | `110` | no |
 | min\_node\_count | Minimum number of nodes in the NodePool. Must be >=0 and <= max\_node\_count. | `number` | n/a | yes |
 | name | The name of the cluster. | `string` | n/a | yes |
 | node\_max\_surge | The number of additional nodes that can be added to the node pool during an upgrade. | `number` | `1` | no |

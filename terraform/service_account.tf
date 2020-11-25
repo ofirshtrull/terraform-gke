@@ -22,6 +22,7 @@ module "service_accounts_dns" {
   display_name  = "Dns controller Service Accounts"
   description   = "Dns controller Service Accounts"
   project_roles = [
+    format("%s=>roles/compute.loadBalancerAdmin", var.project_id),
     format("%s=>roles/dns.admin", var.project_id)
   ]
 }
