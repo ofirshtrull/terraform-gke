@@ -216,3 +216,9 @@ variable "cluster_release_channel" {
   type        = string
   description = "Configuration options for the Release channel feature, which provide more control over automatic upgrades of your GKE clusters."
 }
+
+variable "master_global_access_config" {
+  type        = bool
+  default     = false
+  description = "Controls cluster master global access settings"
+}

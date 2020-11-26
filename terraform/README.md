@@ -36,6 +36,7 @@
 | kubectl\_config\_path | Path to the kubectl config file. Defaults to $HOME/.kube/config | `string` | `""` | no |
 | location | The location (region or zone) of the GKE cluster. | `string` | n/a | yes |
 | machine\_type | Type of the node compute engines. | `string` | n/a | yes |
+| master\_authorized\_networks\_config | The desired configuration options for master authorized networks. Omit the nested cidr\_blocks attribute to disallow external access (except the cluster node IPs, which GKE automatically whitelists)<br>  ### example format ###<br>  master\_authorized\_networks\_config = [{<br>    cidr\_blocks = [{<br>      cidr\_block   = "10.0.0.0/8"<br>      display\_name = "example\_network"<br>    }],<br>  }] | `list(any)` | `[]` | no |
 | master\_ipv4\_cidr\_block | The IP range in CIDR notation (size must be /28) to use for the hosted master network. This range will be used for assigning internal IP addresses to the master or set of masters, as well as the ILB VIP. This range must not overlap with any other ranges in use within the cluster's network. | `string` | `"10.5.0.0/28"` | no |
 | max\_node\_count | Maximum number of nodes in the NodePool. Must be >= min\_node\_count. | `number` | n/a | yes |
 | max\_pods\_per\_node | The maximum number of pods per node in this node pool. | `number` | `55` | no |

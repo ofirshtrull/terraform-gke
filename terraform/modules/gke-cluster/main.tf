@@ -51,6 +51,9 @@ resource "google_container_cluster" "cluster" {
     enable_private_endpoint = var.disable_public_endpoint
     enable_private_nodes    = var.enable_private_nodes
     master_ipv4_cidr_block  = var.master_ipv4_cidr_block
+    master_global_access_config {
+      enabled = var.master_global_access_config
+    }
   }
 
   addons_config {

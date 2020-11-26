@@ -168,3 +168,18 @@ variable "enable_private_nodes" {
   type        = bool
   default     = false
 }
+
+variable "master_authorized_networks_config" {
+  description = <<EOF
+  The desired configuration options for master authorized networks. Omit the nested cidr_blocks attribute to disallow external access (except the cluster node IPs, which GKE automatically whitelists)
+  ### example format ###
+  master_authorized_networks_config = [{
+    cidr_blocks = [{
+      cidr_block   = "10.0.0.0/8"
+      display_name = "example_network"
+    }],
+  }]
+EOF
+  type        = list(any)
+  default     = []
+}
