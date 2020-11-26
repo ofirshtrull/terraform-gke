@@ -142,7 +142,7 @@ variable allowed_public_restricted_subnetworks {
 }
 
 variable "max_pods_per_node" {
-  default     = 110
+  default     = 55
   type        = number
   description = "The maximum number of pods per node in this node pool."
 }
@@ -156,4 +156,15 @@ variable "auto_upgrade" {
   type        = bool
   default     = true
   description = "Whether the nodes will be automatically upgraded."
+}
+
+variable "disk_type" {
+  type    = string
+  default = "pd-standard"
+}
+
+variable "enable_private_nodes" {
+  description = "Control whether nodes have internal IP addresses only. If enabled, all nodes are given only RFC 1918 private addresses and communicate with the master via private networking."
+  type        = bool
+  default     = false
 }

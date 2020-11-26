@@ -211,3 +211,8 @@ variable "services_secondary_range_name" {
   type        = string
   default     = null
 }
+variable "cluster_release_channel" {
+  default     = "REGULAR"
+  type        = string
+  description = "Configuration options for the Release channel feature, which provide more control over automatic upgrades of your GKE clusters."
+}

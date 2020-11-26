@@ -28,6 +28,8 @@
 | create\_network | n/a | `bool` | `true` | no |
 | credentials | Location of the credentials keyfile. | `string` | n/a | yes |
 | disk\_size\_gb | Size of the node's disk. | `number` | n/a | yes |
+| disk\_type | n/a | `string` | `"pd-standard"` | no |
+| enable\_private\_nodes | Control whether nodes have internal IP addresses only. If enabled, all nodes are given only RFC 1918 private addresses and communicate with the master via private networking. | `bool` | `false` | no |
 | enable\_vertical\_pod\_autoscaling | Enable vertical pod autoscaling | `string` | `true` | no |
 | environment | The name of the environment. | `string` | n/a | yes |
 | initial\_node\_count | The number of nodes to create in this cluster's default node pool. | `number` | n/a | yes |
@@ -36,7 +38,7 @@
 | machine\_type | Type of the node compute engines. | `string` | n/a | yes |
 | master\_ipv4\_cidr\_block | The IP range in CIDR notation (size must be /28) to use for the hosted master network. This range will be used for assigning internal IP addresses to the master or set of masters, as well as the ILB VIP. This range must not overlap with any other ranges in use within the cluster's network. | `string` | `"10.5.0.0/28"` | no |
 | max\_node\_count | Maximum number of nodes in the NodePool. Must be >= min\_node\_count. | `number` | n/a | yes |
-| max\_pods\_per\_node | The maximum number of pods per node in this node pool. | `number` | `110` | no |
+| max\_pods\_per\_node | The maximum number of pods per node in this node pool. | `number` | `55` | no |
 | min\_node\_count | Minimum number of nodes in the NodePool. Must be >=0 and <= max\_node\_count. | `number` | n/a | yes |
 | name | The name of the cluster. | `string` | n/a | yes |
 | node\_max\_surge | The number of additional nodes that can be added to the node pool during an upgrade. | `number` | `1` | no |

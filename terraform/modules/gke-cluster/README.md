@@ -18,6 +18,7 @@
 | alternative\_default\_service\_account | Alternative Service Account to be used by the Node VMs. If not specified, the default compute Service Account will be used. Provide if the default Service Account is no longer available. | `string` | `null` | no |
 | basic\_auth\_password | The password used for basic auth; set both this and `basic_auth_username` to "" to disable basic auth. | `string` | `""` | no |
 | basic\_auth\_username | The username used for basic auth; set both this and `basic_auth_password` to "" to disable basic auth. | `string` | `""` | no |
+| cluster\_release\_channel | Configuration options for the Release channel feature, which provide more control over automatic upgrades of your GKE clusters. | `string` | `"REGULAR"` | no |
 | cluster\_secondary\_range\_name | The name of the secondary range within the subnetwork for the cluster to use | `string` | n/a | yes |
 | description | The description of the cluster | `string` | `""` | no |
 | disable\_public\_endpoint | Control whether the master's internal IP address is used as the cluster endpoint. If set to 'true', the master can only be accessed from internal IP addresses. | `bool` | `false` | no |

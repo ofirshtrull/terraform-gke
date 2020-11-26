@@ -14,8 +14,8 @@ repos:
       - id: mixed-line-ending
         args: ["--fix=lf"]
   - repo: git://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.45.0
+    rev: v1.24.0
     hooks:
+      - id: terraform_validate
+      - id: terraform_docs_replace
       - id: terraform_fmt
-      - id: terraform_tflint
-      - id: terraform_docs
