@@ -42,51 +42,6 @@ variable "name" {
   description = "The name of the cluster."
 }
 
-variable "machine_type" {
-  type        = string
-  description = "Type of the node compute engines."
-}
-
-variable "min_node_count" {
-  type        = number
-  description = "Minimum number of nodes in the NodePool. Must be >=0 and <= max_node_count."
-}
-
-variable "max_node_count" {
-  type        = number
-  description = "Maximum number of nodes in the NodePool. Must be >= min_node_count."
-}
-
-variable "node_max_surge" {
-  type        = number
-  default     = 1
-  description = "The number of additional nodes that can be added to the node pool during an upgrade."
-}
-
-variable "node_max_unavailable" {
-  type        = number
-  default     = 0
-  description = "The number of nodes that can be simultaneously unavailable during an upgrade."
-}
-
-variable "disk_size_gb" {
-  type        = number
-  description = "Size of the node's disk."
-}
-
-variable "service_account" {
-  type        = string
-  description = "The service account to run nodes as if not overridden in `node_pools`. The create_service_account variable default value (true) will cause a cluster-specific service account to be created."
-}
-
-variable "initial_node_count" {
-  type        = number
-  description = "The number of nodes to create in this cluster's default node pool."
-}
-
-
-
-
 variable "master_ipv4_cidr_block" {
   description = "The IP range in CIDR notation (size must be /28) to use for the hosted master network. This range will be used for assigning internal IP addresses to the master or set of masters, as well as the ILB VIP. This range must not overlap with any other ranges in use within the cluster's network."
   type        = string
@@ -141,28 +96,6 @@ variable allowed_public_restricted_subnetworks {
   type        = list(string)
 }
 
-variable "max_pods_per_node" {
-  default     = 55
-  type        = number
-  description = "The maximum number of pods per node in this node pool."
-}
-
-variable "auto_repair" {
-  type        = bool
-  default     = true
-  description = "Whether the nodes will be automatically repaired."
-}
-variable "auto_upgrade" {
-  type        = bool
-  default     = true
-  description = "Whether the nodes will be automatically upgraded."
-}
-
-variable "disk_type" {
-  type    = string
-  default = "pd-standard"
-}
-
 variable "enable_private_nodes" {
   description = "Control whether nodes have internal IP addresses only. If enabled, all nodes are given only RFC 1918 private addresses and communicate with the master via private networking."
   type        = bool
@@ -182,4 +115,12 @@ variable "master_authorized_networks_config" {
 EOF
   type        = list(any)
   default     = []
+}
+
+/*
+  Node Pool Config
+*/
+variable "node_pool_machine_type" {
+  type        = string
+  description = "Type of the node compute engines."
 }

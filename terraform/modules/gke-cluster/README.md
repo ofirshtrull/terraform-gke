@@ -2,14 +2,15 @@
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.7 |
+| google | ~> 3.43.0 |
+| google-beta | ~> 3.43.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| google | n/a |
-| google-beta | n/a |
+| google | ~> 3.43.0 |
+| google-beta | ~> 3.43.0 |
 
 ## Inputs
 

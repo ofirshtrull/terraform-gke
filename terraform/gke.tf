@@ -21,7 +21,6 @@ module "gke_cluster" {
   }
 
   master_authorized_networks_config = var.master_authorized_networks_config
-
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -40,5 +39,5 @@ resource "null_resource" "configure_kubectl" {
       KUBECONFIG = var.kubectl_config_path != "" ? var.kubectl_config_path : ""
     }
   }
-  depends_on = [google_container_node_pool.node_pool]
+  depends_on = [module.default_node_pool]
 }
