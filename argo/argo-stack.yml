@@ -21,6 +21,9 @@ data:
     - name: bitnami
       type: helm
       url: https://charts.bitnami.com/bitnami
+    - name: vernemq
+      type: helm
+      url: https://vernemq.github.io/docker-vernemq
 
 ---
 
@@ -70,7 +73,7 @@ spec:
           adminPassword: Qq121314
           grafana.ini:
             server:
-              root_url: https://grafana.34.69.137.111.xip.io
+              root_url: https://grafana.34.123.162.231.xip.io
           sidecar:
             dashboards:
               enabled: true
@@ -103,10 +106,10 @@ spec:
             tls:
             - secretName: grafana
               hosts:
-                - grafana.34.69.137.111.xip.io
+                - grafana.34.123.162.231.xip.io
 
             hosts:
-              - grafana.34.69.137.111.xip.io
+              - grafana.34.123.162.231.xip.io
           additionalDataSources:
             - name: Prometheus-loki
               type: prometheus
@@ -180,7 +183,25 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://kubernetes.github.io/ingress-nginx'
-    targetRevision: 3.9.0
+    targetRevision: 3.12.0
+    helm:
+      values: |
+        controller:
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+              additionalLabels:
+                release: prometheus-operator
+          service:
+            externalTrafficPolicy: "Local"
+            internal:
+              enabled: true
+              annotations:
+                # Create internal LB
+                cloud.google.com/load-balancer-type: "Internal"
+          admissionWebhooks:
+            enabled: false
     chart: ingress-nginx
   project: default
   syncPolicy:
@@ -204,7 +225,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   rules:
-  - host: argocd.34.69.137.111.xip.io
+  - host: argocd.34.123.162.231.xip.io
     http:
       paths:
       - backend:
@@ -213,7 +234,7 @@ spec:
         path: /
   tls:
   - hosts:
-    - argocd.34.69.137.111.xip.io
+    - argocd.34.123.162.231.xip.io
     secretName: argocd-secret
 
 ---
@@ -278,3 +299,34 @@ spec:
     automated:
       prune: true
       selfHeal: true
+
+---
+# https://github.com/vernemq/docker-vernemq/tree/master/helm/vernemq
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vernemq
+spec:
+  project: default
+  destination:
+    namespace: vernemq
+    server: https://kubernetes.default.svc
+  source:
+    chart: vernemq
+    repoURL: https://vernemq.github.io/docker-vernemq
+    targetRevision: 1.6.7
+    helm:
+      values: |
+        podAnnotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "8888"
+        additionalEnv:
+          - name: DOCKER_VERNEMQ_ACCEPT_EULA
+            value: "yes"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---

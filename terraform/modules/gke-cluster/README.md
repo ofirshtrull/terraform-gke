@@ -1,16 +1,13 @@
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| google | ~> 3.43.0 |
-| google-beta | ~> 3.43.0 |
+No requirements.
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| google | ~> 3.43.0 |
-| google-beta | ~> 3.43.0 |
+| google | n/a |
+| google-beta | n/a |
 
 ## Inputs
 

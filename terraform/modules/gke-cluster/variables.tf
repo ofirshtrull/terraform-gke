@@ -29,11 +29,6 @@ variable "cluster_secondary_range_name" {
   type        = string
 }
 
-# ---------------------------------------------------------------------------------------------------------------------
-# OPTIONAL PARAMETERS
-# Generally, these values won't need to be changed.
-# ---------------------------------------------------------------------------------------------------------------------
-
 variable "description" {
   description = "The description of the cluster"
   type        = string
@@ -150,11 +145,6 @@ variable "resource_labels" {
   type        = map
   default     = {}
 }
-
-# ---------------------------------------------------------------------------------------------------------------------
-# OPTIONAL PARAMETERS - RECOMMENDED DEFAULTS
-# These values shouldn't be changed; they're following the best practices defined at https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster
-# ---------------------------------------------------------------------------------------------------------------------
 
 variable "enable_legacy_abac" {
   description = "Whether to enable legacy Attribute-Based Access Control (ABAC). RBAC has significant security advantages over ABAC."

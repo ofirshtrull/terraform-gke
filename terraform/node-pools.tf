@@ -1,11 +1,12 @@
 module "default_node_pool" {
-  source                    = "./modules/node-pool"
-  node_pool_name            = "default"
-  project_id                = var.project_id
-  gke_cluster_name          = module.gke_cluster.name
-  environment               = var.environment
-  location                  = var.location
-  machine_type              = "g1-small"
+  source           = "./modules/node-pool"
+  node_pool_name   = "default"
+  project_id       = var.project_id
+  gke_cluster_name = module.gke_cluster.name
+  environment      = var.environment
+  location         = var.location
+  //  node_config_machine_type              = "g1-small"
+  node_config_machine_type  = "e2-medium"
   node_pool_service_account = module.service_accounts_general.email
   node_config_preemptible   = true
 

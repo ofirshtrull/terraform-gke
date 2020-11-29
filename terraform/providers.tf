@@ -3,7 +3,7 @@ terraform {
 }
 
 provider "google" {
-  version     = "~> 3.43.0"
+  version     = "~> 3.49.0"
   project     = var.project_id
   region      = var.region
   credentials = file("./terraform-gke-keyfile.json")
@@ -21,7 +21,7 @@ provider "google" {
 }
 
 provider "google-beta" {
-  version     = "~> 3.43.0"
+  version     = "~> 3.49.0"
   project     = var.project_id
   region      = var.region
   credentials = file("./terraform-gke-keyfile.json")

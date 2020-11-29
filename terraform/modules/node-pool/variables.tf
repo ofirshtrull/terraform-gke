@@ -40,7 +40,7 @@ private-persistence - allow inbound traffic from tagged sources within this netw
 EOF
 }
 
-variable "machine_type" {
+variable "node_config_machine_type" {
   type        = string
   description = "Type of the node compute engines."
 }
@@ -57,7 +57,7 @@ variable "node_config_preemptible" {
   description = "A preemptible VM is an instance that you can create and run at a much lower price than normal instances. However, Compute Engine might stop (preempt)"
 }
 
-variable "node_image_type" {
+variable "node_config_image_type" {
   type        = string
   default     = "COS"
   description = "The image type to use for this node. Note that changing the image type will delete and recreate all nodes in the node pool."
@@ -118,13 +118,19 @@ variable "environment" {
   type        = string
 }
 
-variable "disk_size_gb" {
+variable "node_config_disk_size" {
   type        = number
   default     = 10
   description = "Size of the node's disk."
 }
+variable "node_config_local_ssd_count" {
+  description = "Number of local SSDs attached to nodes."
+  type        = number
+  default     = 0
+}
 
-variable "disk_type" {
-  type    = string
-  default = "pd-standard"
+variable "node_config_disk_type" {
+  description = "Node disk type, defaults to pd-standard."
+  type        = string
+  default     = "pd-standard"
 }

@@ -109,20 +109,3 @@ resource "google_compute_subnetwork" "vpc_subnetwork_private" {
     }
   }
 }
-
-//# ---------------------------------------------------------------------------------------------------------------------
-//# Attach Firewall Rules to allow inbound traffic to tagged instances
-//# ---------------------------------------------------------------------------------------------------------------------
-//
-//module "network_firewall" {
-//  source = "../network-firewall"
-//
-//  name_prefix = var.name_prefix
-//
-//  project                               = var.project
-//  network                               = google_compute_network.vpc.self_link
-//  allowed_public_restricted_subnetworks = var.allowed_public_restricted_subnetworks
-//
-//  public_subnetwork  = google_compute_subnetwork.vpc_subnetwork_public.self_link
-//  private_subnetwork = google_compute_subnetwork.vpc_subnetwork_private.self_link
-//}

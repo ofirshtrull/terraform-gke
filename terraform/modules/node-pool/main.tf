@@ -11,17 +11,20 @@ resource "google_container_node_pool" "default" {
   max_pods_per_node  = var.max_pods_per_node
 
   node_config {
-    image_type   = var.node_image_type
-    machine_type = var.machine_type
+    image_type   = var.node_config_image_type
+    machine_type = var.node_config_machine_type
+
+    local_ssd_count = var.node_config_local_ssd_count
+    disk_size_gb    = var.node_config_disk_size
+    disk_type       = var.node_config_disk_type
+    preemptible     = var.node_config_preemptible
 
     labels = var.node_config_labels
     # Add a public tag to the instances. See the network access tier table for full details:
     # https://github.com/gruntwork-io/terraform-google-network/tree/master/modules/vpc-network#access-tier
     tags = flatten([var.node_config_tags, var.firewall_tag])
 
-    disk_size_gb = var.disk_size_gb
-    disk_type    = var.disk_type
-    preemptible  = var.node_config_preemptible
+
 
     service_account = var.node_pool_service_account
 

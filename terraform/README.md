@@ -3,15 +3,15 @@
 | Name | Version |
 |------|---------|
 | terraform | >= 0.12.7 |
-| google | ~> 3.43.0 |
-| google-beta | ~> 3.43.0 |
+| google | ~> 3.49.0 |
+| google-beta | ~> 3.49.0 |
 | kubernetes | ~> 1.7.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| google | ~> 3.43.0 |
+| google | ~> 3.49.0 |
 | null | n/a |
 | template | n/a |
 
