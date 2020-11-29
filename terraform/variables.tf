@@ -116,11 +116,3 @@ EOF
   type        = list(any)
   default     = []
 }
-
-/*
-  Node Pool Config
-*/
-variable "node_pool_machine_type" {
-  type        = string
-  description = "Type of the node compute engines."
-}

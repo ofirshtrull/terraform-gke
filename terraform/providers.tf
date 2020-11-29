@@ -1,12 +1,6 @@
 terraform {
-  # The modules used in this example have been updated with 0.12 syntax, additionally we depend on a bug fixed in
-  # version 0.12.7.
   required_version = ">= 0.12.7"
 }
-
-# ---------------------------------------------------------------------------------------------------------------------
-# PREPARE PROVIDERS
-# ---------------------------------------------------------------------------------------------------------------------
 
 provider "google" {
   version     = "~> 3.43.0"
@@ -43,7 +37,6 @@ provider "google-beta" {
     "https://www.googleapis.com/auth/userinfo.email",
   ]
 }
-
 
 provider "kubernetes" {
   version = "~> 1.7.0"

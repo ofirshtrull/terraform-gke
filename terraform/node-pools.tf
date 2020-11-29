@@ -5,7 +5,7 @@ module "default_node_pool" {
   gke_cluster_name          = module.gke_cluster.name
   environment               = var.environment
   location                  = var.location
-  machine_type              = var.node_pool_machine_type
+  machine_type              = "g1-small"
   node_pool_service_account = module.service_accounts_general.email
   node_config_preemptible   = true
 
