@@ -11,7 +11,7 @@ zones = [
 ]
 name = "gke-cluster"
 
-service_account         = "terraform@ornate-veld-292519.iam.gserviceaccount.com"
+//service_account         = "terraform@ornate-veld-292519.iam.gserviceaccount.com"
 credentials             = "./terraform-gke-keyfile.json"
 enable_private_nodes    = true
 node_config_preemptible = true // gcp spot instance
@@ -19,7 +19,7 @@ master_authorized_networks_config = [
   {
     cidr_blocks = [
       {
-        cidr_block   = "46.116.45.255/32"
+        cidr_block   = "46.116.62.106/32"
         display_name = "ofir house"
       }
     ]

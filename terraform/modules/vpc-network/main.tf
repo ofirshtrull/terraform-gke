@@ -1,5 +1,7 @@
 
 resource "google_compute_network" "vpc" {
+  count = var.create_vpc ? 1 : 0
+
   name    = format("%s-network", var.name_prefix)
   project = var.project
 
@@ -11,11 +13,13 @@ resource "google_compute_network" "vpc" {
 }
 
 resource "google_compute_router" "vpc_router" {
+  count = var.create_vpc ? 1 : 0
+
   name = format("%s-router", var.name_prefix)
 
   project = var.project
   region  = var.region
-  network = google_compute_network.vpc.self_link
+  network = google_compute_network.vpc.*.self_link[0]
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -25,11 +29,13 @@ resource "google_compute_router" "vpc_router" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "google_compute_subnetwork" "vpc_subnetwork_public" {
+  count = var.create_vpc ? 1 : 0
+
   name = format("%s-subnetwork-public", var.name_prefix)
 
   project = var.project
   region  = var.region
-  network = google_compute_network.vpc.self_link
+  network = google_compute_network.vpc.*.self_link[0]
 
   private_ip_google_access = true
   ip_cidr_range            = cidrsubnet(var.cidr_block, var.cidr_subnetwork_width_delta, 0)
@@ -55,11 +61,13 @@ resource "google_compute_subnetwork" "vpc_subnetwork_public" {
 }
 
 resource "google_compute_router_nat" "vpc_nat" {
-  name = "${var.name_prefix}-nat"
+  count = var.create_vpc ? 1 : 0
+
+  name = format("%s-nat", var.name_prefix)
 
   project = var.project
   region  = var.region
-  router  = google_compute_router.vpc_router.name
+  router  = google_compute_router.vpc_router.*.name[0]
 
   nat_ip_allocate_option = "AUTO_ONLY"
 
@@ -67,7 +75,7 @@ resource "google_compute_router_nat" "vpc_nat" {
   source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
 
   subnetwork {
-    name                    = google_compute_subnetwork.vpc_subnetwork_public.self_link
+    name                    = google_compute_subnetwork.vpc_subnetwork_public.*.self_link[0]
     source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
 }
@@ -77,11 +85,13 @@ resource "google_compute_router_nat" "vpc_nat" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "google_compute_subnetwork" "vpc_subnetwork_private" {
+  count = var.create_vpc ? 1 : 0
+
   name = format("%s-subnetwork-private", var.name_prefix)
 
   project = var.project
   region  = var.region
-  network = google_compute_network.vpc.self_link
+  network = google_compute_network.vpc.*.self_link[0]
 
   private_ip_google_access = true
   ip_cidr_range = cidrsubnet(
