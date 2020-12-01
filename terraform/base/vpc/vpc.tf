@@ -1,5 +1,5 @@
 module "vpc_network" {
-  source      = "./modules/vpc-network"
+  source      = "../../modules/vpc-network"
   create_vpc  = var.create_network
   name_prefix = format("%s-%s-vpc", var.cluster_name, var.environment)
   project     = var.project_id

@@ -8,7 +8,7 @@
 # Directories
 .terraform/
 .vagrant/
-
+.terragrunt-cache/
 # SSH Keys
 *.pem
 
@@ -35,4 +35,4 @@ ssh
 # TEMP
 envs/demo.tfvars
 terraform-gke-keyfile.json
-!.terraform-version
+!terraform/.terraform-version

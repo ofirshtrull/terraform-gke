@@ -1,3 +1,7 @@
+terraform {
+  source = "../../base/"
+}
+
 generate "providers" {
   path      = "providers.tf"
   if_exists = "overwrite"
