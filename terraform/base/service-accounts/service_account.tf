@@ -1,5 +1,5 @@
 module "service_accounts_general" {
-  source        = "./modules/service-accounts"
+  source        = "../../modules/service-accounts"
   project_id    = var.project_id
   names         = ["general"]
   generate_keys = false
@@ -15,7 +15,7 @@ module "service_accounts_general" {
 }
 
 module "service_accounts_dns" {
-  source        = "./modules/service-accounts"
+  source        = "../../modules/service-accounts"
   project_id    = var.project_id
   names         = ["dns-controller"]
   generate_keys = false
@@ -28,7 +28,7 @@ module "service_accounts_dns" {
 }
 
 module "service_accounts_secrets" {
-  source        = "./modules/service-accounts"
+  source        = "../../modules/service-accounts"
   project_id    = var.project_id
   names         = ["secret-manager"]
   generate_keys = false
@@ -40,7 +40,7 @@ module "service_accounts_secrets" {
 }
 
 module "service_accounts_vpc" {
-  source        = "./modules/service-accounts"
+  source        = "../../modules/service-accounts"
   project_id    = var.project_id
   names         = ["vpc-sa"]
   generate_keys = false
@@ -52,8 +52,8 @@ module "service_accounts_vpc" {
   ]
 }
 
-module "service_accounts_gcs" {
-  source        = "./modules/service-accounts"
+module "service_accounts_loki" {
+  source        = "../../modules/service-accounts"
   project_id    = var.project_id
   names         = ["loki-sa"]
   generate_keys = false

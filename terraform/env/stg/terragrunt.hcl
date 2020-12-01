@@ -1,7 +1,7 @@
-terraform {
-  required_version = ">= 0.12.7"
-}
-
+generate "providers" {
+  path      = "providers.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
 provider "google" {
   version     = "~> 3.49.0"
   project     = var.project_id
@@ -37,12 +37,5 @@ provider "google-beta" {
     "https://www.googleapis.com/auth/userinfo.email",
   ]
 }
-
-//provider "kubernetes" {
-//  version = "~> 1.7.0"
-//
-//  load_config_file       = false
-//  host                   = data.template_file.gke_host_endpoint.rendered
-//  token                  = data.template_file.access_token.rendered
-//  cluster_ca_certificate = data.template_file.cluster_ca_certificate.rendered
-//}
+EOF
+}

@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "network_firewall" {
-  source = "./modules/network-firewall"
+  source = "../../modules/network-firewall"
 
   create_vpc_network = var.create_network
   name_prefix        = format("%s-%s-vpc", var.cluster_name, var.environment)

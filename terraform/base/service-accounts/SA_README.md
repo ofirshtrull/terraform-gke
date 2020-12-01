@@ -20,4 +20,4 @@
 
 
 ### GKE
-[Terraform](./README.md)
+[Terraform](../../README.md)

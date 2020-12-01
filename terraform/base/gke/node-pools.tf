@@ -1,5 +1,5 @@
 module "default_node_pool" {
-  source           = "./modules/node-pool"
+  source           = "../../modules/node-pool"
   node_pool_name   = "default"
   project_id       = var.project_id
   gke_cluster_name = module.gke_cluster.name

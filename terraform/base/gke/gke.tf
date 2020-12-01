@@ -1,30 +1,15 @@
-/*
-  Config to have old VPC
-*/
-variable "network" {
-  description = "A reference (self link) to the VPC network to host the cluster in"
-  type        = string
-}
-variable "subnetwork" {
-  description = "A reference (self link) to the subnetwork to host the cluster in"
-  type        = string
-}
 
-variable "cluster_secondary_range_name" {
-  description = "The name of the secondary range within the subnetwork for the cluster to use"
-  type        = string
-}
 
 module "gke_cluster" {
-  source = "./modules/gke-cluster"
+  source = "../../modules/gke-cluster"
 
   name     = format("%s-%s", var.cluster_name, var.environment)
   project  = var.project_id
   location = var.location
 
-  network                             = coalesce(module.vpc_network.network, var.network)
-  subnetwork                          = coalesce(module.vpc_network.public_subnetwork, var.subnetwork)
-  cluster_secondary_range_name        = coalesce(module.vpc_network.public_subnetwork_secondary_range_name, var.cluster_secondary_range_name)
+  network                             = coalesce(module.vpc_network.network, var.old_network)
+  subnetwork                          = coalesce(module.vpc_network.public_subnetwork, var.old_subnetwork)
+  cluster_secondary_range_name        = coalesce(module.vpc_network.public_subnetwork_secondary_range_name, var.old_cluster_secondary_range_name)
   enable_private_nodes                = var.enable_private_nodes
   alternative_default_service_account = var.override_default_node_pool_service_account ? module.service_accounts_general.email : null
   master_ipv4_cidr_block              = var.master_ipv4_cidr_block
