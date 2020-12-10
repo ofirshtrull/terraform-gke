@@ -116,3 +116,23 @@ EOF
   type        = list(any)
   default     = []
 }
+
+/*
+  Config to have old VPC
+*/
+variable "network" {
+  description = "A reference (self link) to the VPC network to host the cluster in"
+  type        = string
+  default     = ""
+}
+variable "subnetwork" {
+  description = "A reference (self link) to the subnetwork to host the cluster in"
+  type        = string
+  default     = ""
+}
+
+variable "cluster_secondary_range_name" {
+  description = "The name of the secondary range within the subnetwork for the cluster to use"
+  type        = string
+  default     = ""
+}

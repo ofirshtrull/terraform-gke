@@ -28,20 +28,20 @@ output "cluster_ca_certificate" {
 
 output "public" {
   description = "The network tag string used for the public access tier"
-  value       = module.network_firewall[0].public
+  value       = module.network_firewall.public
 }
 
 output "public_restricted" {
   description = "The string of the public tag"
-  value       = module.network_firewall[0].public_restricted
+  value       = module.network_firewall.public_restricted
 }
 
 output "private" {
   description = "The network tag string used for the private access tier"
-  value       = module.network_firewall[0].private
+  value       = module.network_firewall.private
 }
 
 output "private_persistence" {
   description = "The network tag string used for the private-persistence access tier"
-  value       = module.network_firewall[0].private_persistence
+  value       = module.network_firewall.private_persistence
 }
